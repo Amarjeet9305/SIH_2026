@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "setup": "echo 'Setting up INCOIS Hazard Platform...' && npm install && echo 'Dependencies installed! Now follow the setup guide in README.md'",
+    "check-env": "node -e \"console.log('Checking environment variables...'); console.log('SUPABASE_URL:', process.env.NEXT_PUBLIC_SUPABASE_URL ? '✅ Set' : '❌ Missing'); console.log('SUPABASE_ANON_KEY:', process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? '✅ Set' : '❌ Missing');\""
   },
   "dependencies": {
     "@radix-ui/react-alert-dialog": "^1.1.2",
