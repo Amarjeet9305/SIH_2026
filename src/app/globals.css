@@ -125,3 +125,33 @@
   border: none !important;
   box-shadow: none !important; /* Also remove any default shadow */
 }
+
+/* Map container adjustments */
+.map-container {
+  z-index: 1;
+}
+
+/* Ensure map controls don't overlap with filter panel */
+.leaflet-control-container {
+  z-index: 1000;
+}
+
+/* Filter panel positioning */
+.filter-panel {
+  z-index: 4999;
+}
+
+/* Filter button positioning */
+.filter-button {
+  z-index: 5000;
+}
+
+/* Ensure Select dropdown appears above everything */
+[data-radix-select-content] {
+  z-index: 9999 !important;
+}
+
+/* Ensure Select trigger is clickable */
+[data-radix-select-trigger] {
+  z-index: 5001;
+}

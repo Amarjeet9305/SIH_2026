@@ -167,11 +167,12 @@ export default function DashboardMap() {
 
     return (
         <div className="relative h-full w-full bg-gray-100">
-            <Button variant="secondary" size="icon" onClick={() => setIsPanelOpen(!isPanelOpen)} className="absolute top-4 left-4 z-[5000] shadow-lg">
+            <Button variant="secondary" size="icon" onClick={() => setIsPanelOpen(!isPanelOpen)} className="absolute bottom-4 left-4 filter-button shadow-lg">
                 <Filter className="h-4 w-4" />
             </Button>
 
-            <Card ref={filterPanelRef} className={`absolute top-4 left-4 z-[4999] w-72 shadow-lg bg-white/80 backdrop-blur-sm transition-transform duration-300 ease-in-out ${isPanelOpen ? 'translate-x-14' : '-translate-x-full'}`}>
+            {isPanelOpen && (
+                <Card ref={filterPanelRef} className="absolute bottom-4 left-16 filter-panel w-72 shadow-lg bg-white/95 backdrop-blur-sm">
                 <CardHeader>
                     <CardTitle>INCOIS Hazard Dashboard</CardTitle>
                     <CardDescription>Filter & View Options</CardDescription>
@@ -179,9 +180,14 @@ export default function DashboardMap() {
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
                         <Label htmlFor="hazard-filter">Hazard Type</Label>
-                        <Select value={hazardFilter} onValueChange={setHazardFilter}>
-                            <SelectTrigger id="hazard-filter"><SelectValue placeholder="Select Hazard Type" /></SelectTrigger>
-                            <SelectContent>
+                        <Select value={hazardFilter} onValueChange={(value) => {
+                            console.log('Hazard filter changed to:', value);
+                            setHazardFilter(value);
+                        }}>
+                            <SelectTrigger id="hazard-filter" className="w-full">
+                                <SelectValue placeholder="Select Hazard Type" />
+                            </SelectTrigger>
+                            <SelectContent className="z-[9999]">
                                 <SelectItem value="all">All Types</SelectItem>
                                 <SelectItem value="tsunami-sighting">Tsunami Sighting</SelectItem>
                                 <SelectItem value="high-waves">High Waves</SelectItem>
@@ -190,6 +196,7 @@ export default function DashboardMap() {
                                 <SelectItem value="unusual-tide">Unusual Tide</SelectItem>
                             </SelectContent>
                         </Select>
+                        <p className="text-xs text-muted-foreground">Current: {hazardFilter}</p>
                     </div>
                     <div className="space-y-2">
                         <Label>Minimum Severity: {severityFilter[0]}</Label>
@@ -200,9 +207,16 @@ export default function DashboardMap() {
                         <Switch id="heatmap-toggle" checked={showHeatmap} onCheckedChange={setShowHeatmap} />
                     </div>
                 </CardContent>
-            </Card>
+                </Card>
+            )}
 
-            <MapContainer center={[20.5937, 78.9629]} zoom={5} scrollWheelZoom={true} style={{ height: '100%', width: '100%' }}>
+            <MapContainer 
+                center={[20.5937, 78.9629]} 
+                zoom={5} 
+                scrollWheelZoom={true} 
+                style={{ height: '100%', width: '100%' }}
+                className="map-container"
+            >
                 <LayersController />
                 {showHeatmap 
                     ? <HeatmapController points={filteredReports.map(r => [r.latitude, r.longitude])} />

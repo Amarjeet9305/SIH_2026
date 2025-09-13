@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, FormEvent, ChangeEvent } from 'react';
+import { useState, useRef, useEffect, FormEvent, ChangeEvent } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -38,7 +38,8 @@ export function EnhancedReportForm() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isFetchingLocation, setIsFetchingLocation] = useState(false);
-  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+  const [isOffline, setIsOffline] = useState(false);
+  const [isClient, setIsClient] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const languages = [
@@ -48,6 +49,30 @@ export function EnhancedReportForm() {
     { code: 'te', name: 'తెలుగు' },
     { code: 'bn', name: 'বাংলা' },
   ];
+
+  // Handle client-side hydration
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Monitor online status
+  useEffect(() => {
+    if (!isClient) return;
+    
+    const handleOnline = () => setIsOffline(false);
+    const handleOffline = () => setIsOffline(true);
+    
+    // Set initial online status
+    setIsOffline(!navigator.onLine);
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, [isClient]);
 
   const handleLocationFetch = () => {
     setIsFetchingLocation(true);
@@ -133,10 +158,7 @@ export function EnhancedReportForm() {
         hazard_type: formData.hazard_type,
         description: formData.description,
         image_url: imageUrl,
-        video_url: videoUrl,
         severity: formData.severity,
-        language: formData.language,
-        user_id: user?.id,
       };
 
       if (isOffline) {
@@ -191,7 +213,7 @@ export function EnhancedReportForm() {
           <CardDescription className="text-center">
             Your report helps create a safer coast for everyone. Available in multiple languages.
           </CardDescription>
-          {isOffline && (
+          {isClient && isOffline && (
             <Badge variant="outline" className="mx-auto w-fit">
               Offline Mode - Will sync when connected
             </Badge>

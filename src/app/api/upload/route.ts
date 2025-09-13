@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
     
     // Upload to Supabase Storage
     const { data, error } = await supabase.storage
-      .from('hazard-media')
+      .from('report-images')
       .upload(fileName, file);
 
     if (error) {
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
 
     // Get public URL
     const { data: { publicUrl } } = supabase.storage
-      .from('hazard-media')
+      .from('report-images')
       .getPublicUrl(fileName);
 
     return NextResponse.json({ url: publicUrl });

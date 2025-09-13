@@ -23,9 +23,12 @@ export default function Home() {
   if (!user) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center p-4 sm:p-8 bg-gradient-to-br from-blue-50 to-indigo-100">
-        <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex mb-8">
-          <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
+        <div className="w-full max-w-5xl text-center mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
             INCOIS Ocean Hazard Reporting Platform
+          </h1>
+          <p className="text-sm text-gray-600">
+            Crowdsourced ocean hazard reporting and social media analytics
           </p>
         </div>
         <AuthForm onAuthSuccess={() => window.location.reload()} />

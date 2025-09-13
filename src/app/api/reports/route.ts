@@ -46,11 +46,8 @@ export async function POST(request: Request) {
                 longitude, 
                 hazard_type, 
                 description, 
-                image_url, 
-                video_url,
-                severity_score: severity,
-                language,
-                user_id,
+                image_url,
+                severity_score: severity || 1,
                 status: 'pending'
             }])
             .select('id, description')
