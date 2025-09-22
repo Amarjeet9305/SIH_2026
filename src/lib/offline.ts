@@ -69,7 +69,7 @@ class OfflineManager {
       const transaction = this.db!.transaction(['reports'], 'readonly');
       const store = transaction.objectStore('reports');
       const index = store.index('synced');
-      const request = index.getAll(false);
+      const request = index.getAll(IDBKeyRange.only(false));
       
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);

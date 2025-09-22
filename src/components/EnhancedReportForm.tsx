@@ -158,7 +158,10 @@ export function EnhancedReportForm() {
         hazard_type: formData.hazard_type,
         description: formData.description,
         image_url: imageUrl,
+        video_url: videoUrl,
         severity: formData.severity,
+        language: formData.language,
+        user_id: user?.id || 'anonymous',
       };
 
       if (isOffline) {
