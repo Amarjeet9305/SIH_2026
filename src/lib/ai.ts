@@ -135,7 +135,7 @@ function detectKeywords(text: string, language: string): string[] {
     return detectedKeywords;
 }
 
-function calculateKeywordSeverity(keywords: string[], language: string): number {
+function calculateKeywordSeverity(keywords: string[], _language: string): number {
     const highSeverityKeywords = ['tsunami', 'सुनामी', 'சுனாமி', 'సునామి', 'সুনামি', 'emergency', 'evacuate'];
     const mediumSeverityKeywords = ['flood', 'बाढ़', 'வெள்ளம்', 'వరద', 'বন্যা', 'storm', 'cyclone'];
     
